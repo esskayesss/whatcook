@@ -31,8 +31,8 @@ const ResultsContent = () => {
   const nonMatching = recipes.filter(recipe => recipe.score <= 0);
 
   return (
-    <main className="flex flex-col gap-8 px-4 py-2.5 pt-8">
-      <div className='flex flex-col gap-1 mb-2'>
+    <main className="flex flex-col gap-4 px-4 py-2.5 pt-8">
+      <div className='flex flex-col gap-1'>
         <h1 className="font-garamond font-semibold text-3xl">Search Results</h1>
         <div className='flex flex-wrap gap-2'>
           {ingredients.map((value, index) => <span key={index} className='px-2 py-1 bg-green text-white w-fit'>{value}</span>)}
@@ -40,7 +40,7 @@ const ResultsContent = () => {
       </div>
       <RecipeCards recipes={matching} ingredients={ingredients} saved={savedRecipes} addRecipe={addRecipe} removeRecipe={removeRecipe} />
       {nonMatching.length ? (<>
-        <h1 className="font-garamond font-semibold text-3xl">More you might like</h1>
+        <h1 className="font-garamond font-semibold text-3xl mt-2">More you might like</h1>
         <RecipeCards recipes={nonMatching} ingredients={ingredients} saved={savedRecipes} addRecipe={addRecipe} removeRecipe={removeRecipe} />
         </>
       ) : null
@@ -60,10 +60,12 @@ interface RecipeCardsProps {
 const RecipeCards: React.FC<RecipeCardsProps> = ({recipes, ingredients, saved, addRecipe, removeRecipe}: RecipeCardsProps) => {
   return (
     <div className="flex flex-col gap-6">
-      {recipes.map((recipe, index) => (
-        <RecipeCard recipe={recipe} saved={saved} key={index} ingredients={ingredients}
-          addRecipe={() => addRecipe(recipe.dish)} removeRecipe={() => removeRecipe(recipe.dish)} />
-      ))}
+      {recipes.length > 0 ? 
+        recipes.map((recipe, index) => (
+          <RecipeCard recipe={recipe} saved={saved} key={index} ingredients={ingredients}
+            addRecipe={() => addRecipe(recipe.dish)} removeRecipe={() => removeRecipe(recipe.dish)} />
+        )) : <p>We couldn't find a perfect match :( </p>
+      }
     </div>
   )
 }
