@@ -4,26 +4,19 @@ import { RecipeCard } from '@/components/recipe-card';
 import { matchRecipes, Recipe } from '@/lib/recipes';
 import { useSavedRecipesState } from '@/lib/saved';
 import { useSearchParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { Suspense } from 'react';
 
 export default function ResultsPage() {
-  const [isMounted, setIsMounted] = useState<boolean>(false)
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ResultsContent />
+    </Suspense>
+  )
+}
 
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
-
-  if (!isMounted){
-    return (
-      <main className="flex flex-col gap-8 px-4 py-2.5 pt-8">
-        <h1 className="font-garamond text-3xl font-semibold">Search Results</h1>
-      </main>
-    )
-  }
-
+const ResultsContent = () => {
   const searchParams = useSearchParams();
   const { savedRecipes, addRecipe, removeRecipe } = useSavedRecipesState();
-
 
   const showVegetarian = searchParams.get('showVegetarian') === 'true';
   const showGlutenFree = searchParams.get('showGlutenFree') === 'true';
@@ -42,7 +35,7 @@ export default function ResultsPage() {
       <div className='flex flex-col gap-1 mb-2'>
         <h1 className="font-garamond font-semibold text-3xl">Search Results</h1>
         <div className='flex flex-wrap gap-2'>
-          {ingredients.map((value) => <span className='px-2 py-1 bg-green text-white w-fit'>{value}</span>)}
+          {ingredients.map((value, index) => <span key={index} className='px-2 py-1 bg-green text-white w-fit'>{value}</span>)}
         </div>
       </div>
       <RecipeCards recipes={matching} ingredients={ingredients} saved={savedRecipes} addRecipe={addRecipe} removeRecipe={removeRecipe} />

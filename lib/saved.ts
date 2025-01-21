@@ -3,13 +3,28 @@
 import { useState, useEffect } from 'react';
 
 export const useSavedRecipesState = () => {
-  const fromStorage = localStorage.getItem('saved');
-  if (!fromStorage) {
-    localStorage.setItem('saved', '');
-  }
+  const [savedRecipes, setSavedRecipes] = useState<Set<string>>(new Set());
 
-  const savedItems = new Set((fromStorage || '').split('-'));
-  const [savedRecipes, setSavedRecipes] = useState<Set<string>>(savedItems);
+  useEffect(() => {
+    try {
+      const fromStorage = localStorage.getItem('saved');
+      if (fromStorage) {
+        const savedItems = new Set(fromStorage.split('-').filter(Boolean));
+        setSavedRecipes(savedItems);
+      }
+    } catch (error) {
+      console.error('Failed to read from localStorage:', error);
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      const savedString = Array.from(savedRecipes).join('-');
+      localStorage.setItem('saved', savedString);
+    } catch (error) {
+      console.error('Failed to write to localStorage:', error);
+    }
+  }, [savedRecipes]);
 
   const addRecipe = (dish: string) => {
     const formattedDish = dish.toLowerCase();
@@ -29,11 +44,6 @@ export const useSavedRecipesState = () => {
     const formattedDish = dish.toLowerCase();
     return savedRecipes.has(formattedDish);
   };
-
-  useEffect(() => {
-    const savedString = Array.from(savedRecipes).join('-');
-    localStorage.setItem('saved', savedString);
-  }, [savedRecipes]);
 
   return {
     savedRecipes,
