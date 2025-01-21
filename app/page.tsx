@@ -1,4 +1,5 @@
 import { IngredientsForm } from "@/components/form/";
+import { SuggestedRecipes } from "@/components/suggestions";
 import { ingredients } from "@/lib/recipes";
 
 export default function Home() {
@@ -11,7 +12,8 @@ export default function Home() {
           <IngredientsForm ingredients={ingredients} />
         </main>
         <div className={`flex flex-col`} >
-          <h1 className="text-[1.5rem] font-garamond font-semibold">Featured recipes you might like</h1>
+          <h1 className="text-[1.5rem] font-garamond font-semibold pb-4">Featured recipes you might like</h1>
+          <SuggestedRecipes />
         </div>
       </div>
       <div className="aspect-square flex flex-grow bg-[url('/art.webp')] bg-contain bg-no-repeat bg-right-bottom" id="art">

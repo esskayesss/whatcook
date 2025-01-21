@@ -1291,7 +1291,12 @@ export const getRecipe = (dishName: string): Recipe | undefined => {
 
 export const matchRecipes = (
   availableIngredients: string[], 
-  filters: { showVegetarian: boolean, showGlutenFree: boolean, showGuiltFree: boolean }
+  limit: number = 10,
+  filters: { 
+    showVegetarian: boolean, 
+    showGlutenFree: boolean, 
+    showGuiltFree: boolean 
+  } = {showVegetarian: false, showGlutenFree: false, showGuiltFree: false}
 ): Recipe[] => {
   const availableIngredientsSet = new Set(availableIngredients);
 
@@ -1324,5 +1329,5 @@ export const matchRecipes = (
   // Sort by score, highest to lowest, and return only top 10 results
   return scoredRecipes
     .sort((a, b) => b.score - a.score)
-    .slice(0, 10);
+    .slice(0, limit);
 }

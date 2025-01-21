@@ -7,8 +7,8 @@ Made for an internship assignment. It fulfils the following deliverables:
 - [x] In-Memory pre-defined recipe database with _54 entries_. Contains nutritional information, random ratings, etc.
 - [x] Ranked recipe suggestions
 - [x] Saving favorite recipes in localStorage
+- [x] Recipe suggestions (with a dummy recommendation engine that spews random recipes with a few saved ones)
 - [ ] Rating recipes
-- [ ] Recipe suggestions (with a dummy recommendation engine that spews random recipes with a few saved ones)
 
 Additional points that haven't directly been addressed:
   - `protein content`, etc has been ignored; this has more to do with populating the database than coding.

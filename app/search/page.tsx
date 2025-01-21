@@ -23,7 +23,7 @@ const ResultsContent = () => {
   const showGuiltFree = searchParams.get('showGuiltFree') === 'true';
   const ingredients = searchParams.get('ingredients')?.replaceAll('_', ' ').split('-') || [];
 
-  const recipes = matchRecipes(ingredients, { showVegetarian, showGlutenFree, showGuiltFree });
+  const recipes = matchRecipes(ingredients, 10, { showVegetarian, showGlutenFree, showGuiltFree });
 
   /*@ts-ignore*/
   const matching = recipes.filter(recipe => recipe.score > 0);
