@@ -1306,16 +1306,13 @@ export const matchRecipes = (
            (!filters.showVegetarian || recipe.vegetarian);
   });
 
-  // Score the filtered recipes
   const scoredRecipes = filteredRecipes.map(recipe => {
     const recipeIngredientsSet = new Set(recipe.ingredients);
     let score = 0;
 
-    // Check if all recipe ingredients are available
     if (Array.from(recipeIngredientsSet).every(ingredient => availableIngredientsSet.has(ingredient))) {
-      score = 100; // Perfect match - all ingredients are available
+      score = 100;
     } else {
-      // Calculate score based on overlap
       const overlap = new Set([...availableIngredientsSet].filter(i => recipeIngredientsSet.has(i)));
       score = Math.round((overlap.size / recipeIngredientsSet.size) * 100);
     }
@@ -1326,8 +1323,10 @@ export const matchRecipes = (
     };
   });
 
-  // Sort by score, highest to lowest, and return only top 10 results
   return scoredRecipes
-    .sort((a, b) => b.score - a.score)
-    .slice(0, limit);
+  .sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    return b.rating - a.rating;
+  })
+  .slice(0, limit);
 }
