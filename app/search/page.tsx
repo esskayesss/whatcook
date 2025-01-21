@@ -1,15 +1,28 @@
 'use client';
 
-import { PhStarBold, PhStarFill } from '@/components/icons/stars';
 import { RecipeCard } from '@/components/recipe-card';
 import { matchRecipes, Recipe } from '@/lib/recipes';
 import { useSavedRecipesState } from '@/lib/saved';
 import { useSearchParams } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function ResultsPage() {
+  const [isMounted, setIsMounted] = useState<boolean>(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted){
+    return (
+      <main className="flex flex-col gap-8 px-4 py-2.5 pt-8">
+        <h1 className="font-garamond text-3xl font-semibold">Search Results</h1>
+      </main>
+    )
+  }
+
   const searchParams = useSearchParams();
-  const { savedRecipes, addRecipe, removeRecipe, isRecipeSaved } = useSavedRecipesState();
+  const { savedRecipes, addRecipe, removeRecipe } = useSavedRecipesState();
 
 
   const showVegetarian = searchParams.get('showVegetarian') === 'true';
