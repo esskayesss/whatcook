@@ -18,7 +18,10 @@ export default function ResultsPage() {
   const ingredients = searchParams.get('ingredients')?.replaceAll('_', ' ').split('-') || [];
 
   const recipes = matchRecipes(ingredients, { showVegetarian, showGlutenFree, showGuiltFree });
+
+  /*@ts-ignore*/
   const matching = recipes.filter(recipe => recipe.score > 0);
+  /*@ts-ignore*/
   const nonMatching = recipes.filter(recipe => recipe.score <= 0);
 
   return (
